@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Maxi3dStudio // FORM · Lámparas y objetos impresos en 3D</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&family=Figtree:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<div class="top demo" id="status"><div class="w">
+  <span><span class="dot"></span><span id="stTxt">Catálogo en modo demo</span></span>
+  <span><button id="btnConn">Conectar Supabase</button><button id="btnAuth">Login / Registro</button></span>
+</div></div>
+
+<header><div class="w">
+  <a href="#" class="logo">Maxi3dStudio <i>//</i> FORM</a>
+  <nav><a href="#modelos">Modelos 3D</a><a href="#medida">A tu medida</a><a href="#pedir">Cómo pedir</a></nav>
+  <button class="btn k" id="openCart" aria-label="Abrir carrito">Carrito <span class="badge" id="cnt">0</span></button>
+</div></header>
+
+<main>
+<div class="w hero">
+  <div>
+    <h1>Lámparas y objetos impresos en 3D para tu espacio.</h1>
+    <p>Elige un modelo, define el color y lo fabricamos para ti, capa por capa. Armas el carrito y coordinamos todo por WhatsApp.</p>
+    <div class="cta"><a href="#modelos" class="btn p">Ver modelos</a><a href="#medida" class="btn">Quiero algo único</a></div>
+  </div>
+  <div class="roomw">
+    <div class="room" id="room">
+      <svg viewBox="0 0 300 306" aria-hidden="true">
+        <defs>
+          <radialGradient id="gl"><stop offset="0" stop-color="#ffd978" stop-opacity=".95"/><stop offset=".55" stop-color="#ffc857" stop-opacity=".28"/><stop offset="1" stop-color="#ffc857" stop-opacity="0"/></radialGradient>
+          <pattern id="ly" width="10" height="6" patternUnits="userSpaceOnUse"><rect width="10" height="1.3" fill="rgba(0,0,0,.16)"/></pattern>
+        </defs>
+        <circle class="glow" cx="150" cy="140" r="150" fill="url(#gl)"/>
+        <rect class="desk" x="0" y="246" width="300" height="60"/>
+        <path class="shade" d="M96 62h108q18 0 16 18l-9 112q-2 16-18 16h-86q-16 0-18-16l-9-112q-2-18 16-18z"/>
+        <path d="M96 62h108q18 0 16 18l-9 112q-2 16-18 16h-86q-16 0-18-16l-9-112q-2-18 16-18z" fill="url(#ly)"/>
+        <rect class="base" x="124" y="208" width="52" height="38" rx="6"/>
+        <rect class="base" x="108" y="240" width="84" height="8" rx="4"/>
+      </svg>
+    </div>
+    <button class="lt" id="heroT" aria-pressed="false"><b></b><span>Encender</span></button>
+    <div class="note"><b>Impreso capa por capa</b><span>Cada pieza se fabrica cuando la pides.</span></div>
+  </div>
+</div>
+
+<div class="w feat">
+  <div><h3>Modelos listos</h3><p>Elige del catálogo y lo imprimimos.</p></div>
+  <div><h3>A tu medida</h3><p>Tamaño, color y acabado a elección.</p></div>
+  <div><h3>Pedido simple</h3><p>Arma tu carrito y envíalo.</p></div>
+  <div><h3>Todo por WhatsApp</h3><p>Confirmamos detalles y entrega.</p></div>
+</div>
+
+<div class="mq" aria-hidden="true"><div class="mt" id="mt"></div></div>
+
+<section id="modelos" class="w sec">
+  <h2>Modelos 3D</h2>
+  <div class="bar">
+    <div class="pills" id="pills"></div>
+    <div class="tools">
+      <input id="q" class="inp" type="search" placeholder="Buscar modelo" aria-label="Buscar modelo">
+      <select id="sort" class="inp" aria-label="Ordenar"><option value="new">Novedades</option><option value="pop">Más populares</option><option value="pa">Precio menor</option><option value="pd">Precio mayor</option></select>
+    </div>
+  </div>
+  <div id="grid" class="grid"></div>
+  <p id="empty" class="empty" hidden>No encontramos modelos con ese filtro. Prueba otra categoría o búsqueda.</p>
+</section>
+
+<section id="pedir" class="w sec">
+  <h2>Cómo pedir</h2>
+  <div class="steps">
+    <div><b>1</b><h3>Elige tus modelos</h3><p>Recorre el catálogo y agrega al carrito lo que te guste.</p></div>
+    <div><b>2</b><h3>Envía tu pedido</h3><p>Déjanos tu nombre y contacto. Se abre WhatsApp con el detalle listo.</p></div>
+    <div><b>3</b><h3>Confirmamos e imprimimos</h3><p>Acordamos color, plazo y entrega antes de empezar.</p></div>
+  </div>
+</section>
+
+<section id="medida" class="dark"><div class="w">
+  <div><h2>¿Tienes tu propio diseño?</h2><p>Envíanos tu archivo STL o .3MF, o cuéntanos la idea: tamaño, color y uso. Te respondemos con una cotización.</p></div>
+  <a class="btn" id="waQuote" href="#">Cotizar por WhatsApp</a>
+</div></section>
+</main>
+
+<footer><div class="w"><span class="logo">LUMEN <i>//</i> FORM</span><span>Impresión 3D hecha en Chile</span></div></footer>
+
+<a class="wa" id="waFloat" href="#" aria-label="Escribir por WhatsApp"><svg width="30" height="30" viewBox="0 0 24 24" fill="#fff"><path d="M12 2a10 10 0 00-8.6 15.1L2 22l5-1.3A10 10 0 1012 2zm5.2 14.2c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.3-.7-2.8-1.2-4.6-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.8s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.3 0 .5l-.3.4-.4.4c-.1.2-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.3 2.4 1.5.3.1.5.1.6-.1l.9-1.1c.2-.3.4-.2.6-.1l1.9.9c.3.1.5.2.5.3.1.2.1.8-.1 1.2z"/></svg></a>
+
+<div class="ov" id="ov"></div>
+<aside id="cart" inert aria-label="Carrito">
+  <div class="ch"><h2 style="font-size:24px">Tu carrito</h2><button class="x" id="closeCart" aria-label="Cerrar carrito">×</button></div>
+  <div class="cbd" id="cl"></div>
+  <div class="cf">
+    <div class="tot"><span class="mute">Total estimado</span><span class="price" id="ct"></span></div>
+    <input id="cn" class="inp" placeholder="Tu nombre" autocomplete="name" maxlength="80">
+    <input id="cc" class="inp" placeholder="Teléfono o correo" autocomplete="email" maxlength="120">
+    <textarea id="cx" class="inp" rows="2" placeholder="Colores o detalles (opcional)" maxlength="400"></textarea>
+    <button class="btn p" id="send" style="justify-content:center">Enviar pedido por WhatsApp</button>
+  </div>
+</aside>
+
+<dialog id="dAuth">
+  <h2 id="aT" style="font-size:24px">Iniciar sesión</h2>
+  <form id="fAuth" method="dialog">
+    <label for="em">Correo</label><input id="em" class="inp" type="email" required autocomplete="email">
+    <label for="pw">Contraseña</label><input id="pw" class="inp" type="password" minlength="6" required>
+    <p id="aM" style="color:#b3261e;font-size:14px;min-height:22px;margin-top:8px"></p>
+    <div style="display:flex;gap:8px"><button class="btn p" id="aGo" style="flex:1;justify-content:center">Entrar</button><button class="btn" type="button" data-close>Cancelar</button></div>
+  </form>
+  <button id="aSw" class="mute" style="background:none;border:0;text-decoration:underline;margin-top:14px;font-size:14px" type="button"></button>
+</dialog>
+
+<dialog id="dConn">
+  <h2 style="font-size:24px">Conectar Supabase</h2>
+  <p class="mute" style="font-size:14px;margin-top:6px">Usa la Project URL y la clave <b>publishable</b> (sb_publishable_...) de tu proyecto, en Settings, API Keys. Se guardan solo en este navegador: para el sitio publicado, pégalas en js/config.js.</p>
+  <label for="cu">Project URL</label><input id="cu" class="inp" placeholder="https://xxxx.supabase.co">
+  <label for="ck">Clave publishable</label><input id="ck" class="inp" placeholder="sb_publishable_...">
+  <div style="display:flex;gap:8px;margin-top:20px;flex-wrap:wrap"><button class="btn p" id="cSave">Guardar y conectar</button><button class="btn" id="cClear">Desconectar</button><button class="btn" data-close>Cerrar</button></div>
+</dialog>
+
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+<script src="js/config.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
