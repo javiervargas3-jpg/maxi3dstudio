@@ -96,12 +96,15 @@ else[wq,wf].forEach(a=>a.onclick=e=>{e.preventDefault();toast("Falta tu número:
   const say=t=>{$("#stLogo").textContent=t;if(!t.includes("cargado"))console.warn("Maxi3D Studio:",t)};
   const url=(typeof LOGO_URL==="undefined"?"":String(LOGO_URL)).trim();
   if(!url){say("Logo: falta LOGO_URL en js/config.js");return}
-  const t=new Image();
-  t.onload=()=>{
-    document.querySelectorAll(".logo-img").forEach(i=>{i.src=url;i.hidden=false});
-    const ic=document.createElement("link");ic.rel="icon";ic.href=url;document.head.appendChild(ic);say("Logo cargado")};
-  t.onerror=()=>say("Logo: no se pudo cargar esa URL (bucket no público o enlace mal copiado)");
-  t.src=url;
+  const ic=document.createElement("link");ic.rel="icon";ic.href=url;document.head.appendChild(ic);
+  // Se reserva el espacio y el logo aparece con fundido; si la red falla, se reintenta hasta 3 veces
+  document.querySelectorAll(".logo-img").forEach(img=>{
+    let n=0;img.hidden=false;img.style.opacity=0;img.decoding="async";
+    const go=()=>{img.src=n?url+(url.includes("?")?"&":"?")+"r="+n+"-"+Date.now():url};
+    img.onload=()=>{img.style.opacity=1;say("Logo cargado")};
+    img.onerror=()=>{if(n<3){n++;setTimeout(go,1000*n)}else{img.hidden=true;say("Logo: no se pudo cargar esa URL (bucket no público o enlace mal copiado)")}};
+    go();
+  });
 })();
 
 /* ===== Inicio ===== */
