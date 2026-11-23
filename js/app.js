@@ -1,4 +1,4 @@
-/* LUMEN // FORM · lógica de la tienda (usa las variables de config.js) */
+/* Maxi3D Studio · lógica de la tienda (usa las variables de config.js) */
 const ls={g:k=>{try{return localStorage.getItem(k)||""}catch(e){return ""}},s:(k,v)=>{try{localStorage.setItem(k,v)}catch(e){}},d:k=>{try{localStorage.removeItem(k)}catch(e){}}};
 const U=SUPABASE_URL||ls.g("lf_url"),K=SUPABASE_KEY||ls.g("lf_key");
 let sb=null;try{if(U&&K)sb=supabase.createClient(U,K)}catch(e){console.error(e)}
@@ -63,7 +63,7 @@ $("#send").onclick=async()=>{
   const ids=Object.keys(cart).filter(byId),items=ids.map(id=>({id,nombre:byId(id).nombre,precio:byId(id).precio,cantidad:cart[id]})),total=items.reduce((s,i)=>s+i.precio*i.cantidad,0),nota=$("#cx").value.trim();
   let done=false;
   if(sb){const {error}=await sb.from("ordenes").insert({nombre,contacto,nota:nota||null,items,total});if(error)console.error(error);else done=true}
-  const msg=`Hola, quiero hacer un pedido en LUMEN // FORM:\n${items.map(i=>`- ${i.cantidad} x ${i.nombre} (${money(i.precio*i.cantidad)})`).join("\n")}\nTotal estimado: ${money(total)}\nNombre: ${nombre}\nContacto: ${contacto}${nota?"\nDetalles: "+nota:""}`;
+  const msg=`Hola, quiero hacer un pedido en Maxi3D Studio:\n${items.map(i=>`- ${i.cantidad} x ${i.nombre} (${money(i.precio*i.cantidad)})`).join("\n")}\nTotal estimado: ${money(total)}\nNombre: ${nombre}\nContacto: ${contacto}${nota?"\nDetalles: "+nota:""}`;
   if(WA){window.open(waUrl(msg),"_blank","noopener");done=true}else toast("Falta tu número: edita WHATSAPP en js/config.js");
   if(done){cart={};saveCart();drawCart();openCart(false);if(!WA)toast("Pedido guardado en Supabase")}
 };
@@ -87,7 +87,7 @@ setTimeout(()=>lamp(true),900);
 
 /* ===== WhatsApp ===== */
 const wq=$("#waQuote"),wf=$("#waFloat");
-if(WA){wq.href=waUrl("Hola, quiero cotizar un diseño personalizado en LUMEN // FORM.");wq.target=wf.target="_blank";wq.rel=wf.rel="noopener";wf.href=waUrl()}
+if(WA){wq.href=waUrl("Hola, quiero cotizar un diseño personalizado en Maxi3D Studio.");wq.target=wf.target="_blank";wq.rel=wf.rel="noopener";wf.href=waUrl()}
 else[wq,wf].forEach(a=>a.onclick=e=>{e.preventDefault();toast("Falta tu número: edita WHATSAPP en js/config.js")});
 
 /* ===== Cuenta y conexión ===== */
