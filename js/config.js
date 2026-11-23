@@ -8,4 +8,4 @@ const WHATSAPP = "56922483645";
 // NUNCA pegues aquí la clave secret ni la service_role.
 const SUPABASE_URL = "https://agqzeweerovhtciyxghu.supabase.co";
 const SUPABASE_KEY = "sb_publishable_f5X2onFGf7KXDOlRVrt6Lw_PW3cgO9r";
-const LOGO_URL = "https://agqzeweerovhtciyxghu.supabase.co/storage/v1/object/public/Marca/image_b1a02278.jpg";
+const LOGO_URL = "https://agqzeweerovhtciyxghu.supabase.co/storage/v1/object/public/Marca/Gemini_Generated_Image_1ncmr1ncmr1ncmr1.jfif";
