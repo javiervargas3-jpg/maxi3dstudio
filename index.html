@@ -12,13 +12,10 @@
 </head>
 <body>
 
-<div class="top demo" id="status"><div class="w">
-  <span><span class="dot"></span><span id="stTxt">Catálogo en modo demo</span></span>
-  <span><button id="btnConn">Conectar Supabase</button><button id="btnAuth">Login / Registro</button></span>
-</div></div>
+<div class="top demo" id="status" hidden><div class="w"><span><span class="dot"></span><span id="stTxt">Modo demo</span></span></div></div>
 
 <header><div class="w">
-  <a href="#" class="logo">Maxi3D <i>Studio</i></a>
+  <a href="#" class="logo"><img class="logo-img" hidden alt="Logo de Maxi3D Studio" width="40" height="40"><span>Maxi3D <i>Studio</i></span></a>
   <nav><a href="#modelos">Modelos 3D</a><a href="#medida">A tu medida</a><a href="#pedir">Cómo pedir</a></nav>
   <button class="btn k" id="openCart" aria-label="Abrir carrito">Carrito <span class="badge" id="cnt">0</span></button>
 </div></header>
@@ -87,7 +84,7 @@
 </div></section>
 </main>
 
-<footer><div class="w"><span class="logo">Maxi3D <i>Studio</i></span><span>Impresión 3D hecha en Chile</span></div></footer>
+<footer><div class="w"><span class="logo"><img class="logo-img" hidden alt="" width="30" height="30"><span>Maxi3D <i>Studio</i></span></span><span>Impresión 3D hecha en Chile</span></div></footer>
 
 <a class="wa" id="waFloat" href="#" aria-label="Escribir por WhatsApp"><svg width="30" height="30" viewBox="0 0 24 24" fill="#fff"><path d="M12 2a10 10 0 00-8.6 15.1L2 22l5-1.3A10 10 0 1012 2zm5.2 14.2c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.3-.7-2.8-1.2-4.6-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.8s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.3 0 .5l-.3.4-.4.4c-.1.2-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.3 2.4 1.5.3.1.5.1.6-.1l.9-1.1c.2-.3.4-.2.6-.1l1.9.9c.3.1.5.2.5.3.1.2.1.8-.1 1.2z"/></svg></a>
 
@@ -101,27 +98,9 @@
     <input id="cc" class="inp" placeholder="Teléfono o correo" autocomplete="email" maxlength="120">
     <textarea id="cx" class="inp" rows="2" placeholder="Colores o detalles (opcional)" maxlength="400"></textarea>
     <button class="btn p" id="send" style="justify-content:center">Enviar pedido por WhatsApp</button>
+    <p class="mute" style="font-size:13px;text-align:center">Tu carrito se guarda en este dispositivo.</p>
   </div>
 </aside>
-
-<dialog id="dAuth">
-  <h2 id="aT" style="font-size:24px">Iniciar sesión</h2>
-  <form id="fAuth" method="dialog">
-    <label for="em">Correo</label><input id="em" class="inp" type="email" required autocomplete="email">
-    <label for="pw">Contraseña</label><input id="pw" class="inp" type="password" minlength="6" required>
-    <p id="aM" style="color:#b3261e;font-size:14px;min-height:22px;margin-top:8px"></p>
-    <div style="display:flex;gap:8px"><button class="btn p" id="aGo" style="flex:1;justify-content:center">Entrar</button><button class="btn" type="button" data-close>Cancelar</button></div>
-  </form>
-  <button id="aSw" class="mute" style="background:none;border:0;text-decoration:underline;margin-top:14px;font-size:14px" type="button"></button>
-</dialog>
-
-<dialog id="dConn">
-  <h2 style="font-size:24px">Conectar Supabase</h2>
-  <p class="mute" style="font-size:14px;margin-top:6px">Usa la Project URL y la clave <b>publishable</b> (sb_publishable_...) de tu proyecto, en Settings, API Keys. Se guardan solo en este navegador: para el sitio publicado, pégalas en js/config.js.</p>
-  <label for="cu">Project URL</label><input id="cu" class="inp" placeholder="https://xxxx.supabase.co">
-  <label for="ck">Clave publishable</label><input id="ck" class="inp" placeholder="sb_publishable_...">
-  <div style="display:flex;gap:8px;margin-top:20px;flex-wrap:wrap"><button class="btn p" id="cSave">Guardar y conectar</button><button class="btn" id="cClear">Desconectar</button><button class="btn" data-close>Cerrar</button></div>
-</dialog>
 
 <div id="toast" class="toast" role="status" aria-live="polite"></div>
 

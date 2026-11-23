@@ -1,6 +1,6 @@
 /* Maxi3D Studio · lógica de la tienda (usa las variables de config.js) */
 const ls={g:k=>{try{return localStorage.getItem(k)||""}catch(e){return ""}},s:(k,v)=>{try{localStorage.setItem(k,v)}catch(e){}},d:k=>{try{localStorage.removeItem(k)}catch(e){}}};
-const U=SUPABASE_URL||ls.g("lf_url"),K=SUPABASE_KEY||ls.g("lf_key");
+const U=SUPABASE_URL,K=SUPABASE_KEY;
 let sb=null;try{if(U&&K)sb=supabase.createClient(U,K)}catch(e){console.error(e)}
 const WA=/^\d{8,15}$/.test(WHATSAPP);
 const waUrl=t=>`https://wa.me/${WHATSAPP}${t?"?text="+encodeURIComponent(t):""}`;
@@ -13,12 +13,12 @@ let tt;const toast=m=>{const t=$("#toast");t.textContent=m;t.classList.add("show
 const byId=id=>prods.find(p=>String(p.id)===String(id));
 
 /* ===== Datos ===== */
-let mqKey="",cats=[],prods=[],user=null,cat="all",q="",sort="new",cart={};const lights={};
+let mqKey="",cats=[],prods=[],cat="all",q="",sort="new",cart={};const lights={};
 try{cart=JSON.parse(ls.g("lf_cart")||"{}")}catch(e){}
 const DC=[["lamparas","Lámparas 3D",38],["decoracion","Decoración de Interior",190],["juguetes","Juguetes & Gadgets",150],["otros","Otros Modelos (STL / .3MF)",270]].map(c=>({id:c[0],nombre:c[1],hue:c[2]}));
 const DP=[["Lámpara de espiral E27","lamparas",24990,2800,1,"Pantalla de líneas en espiral que difunde una luz cálida."],["Luz nocturna de hadas","lamparas",14990,3700,1,"Figura calada que proyecta puntos de luz en la pared."],["Lámpara Luna 3D","lamparas",19990,2600,1,"Esfera con relieve de cráteres que se ilumina desde dentro."],["Luna doble","lamparas",29990,2500,1,"Dos lunas de distinto tamaño para escritorio o repisa."],["Lámpara de suspensión","lamparas",27990,4900,1,"Pantalla colgante de textura tejida para sobre mesa."],["Sujetalibros geométrico","decoracion",12990,9700,0,"Par de sujetalibros de líneas geométricas, livianos y firmes."],["Dragón articulado flexi","juguetes",8990,2800,0,"Dragón que se imprime ya articulado, listo para jugar."],["Soporte de auriculares","otros",9990,640,0,"Soporte simple para dejar tus auriculares a mano."]].map((p,i)=>({id:"d"+i,nombre:p[0],categoria_id:p[1],precio:p[2],likes:p[3],con_luz:!!p[4],descripcion:p[5],luz_on:true,imagen_url:null,created_at:new Date(2026,0,i+1).toISOString()}));
 
-function status(k,t){const s=$("#status");s.className="top "+k;$("#stTxt").textContent=t;$("#btnConn").textContent=sb?"Supabase":"Conectar Supabase"}
+function status(k,t){const s=$("#status");s.className="top "+k;$("#stTxt").textContent=t;if(k!=="live")console.warn("Maxi3D Studio:",t)}
 async function load(anim){
   if(!sb){cats=DC;prods=DP;status("demo","Catálogo en modo demo");return draw(anim)}
   const [c,p]=await Promise.all([sb.from("categorias").select("*").order("orden"),sb.from("productos").select("*").eq("activo",true).order("created_at",{ascending:false})]);
@@ -90,22 +90,15 @@ const wq=$("#waQuote"),wf=$("#waFloat");
 if(WA){wq.href=waUrl("Hola, quiero cotizar un diseño personalizado en Maxi3D Studio.");wq.target=wf.target="_blank";wq.rel=wf.rel="noopener";wf.href=waUrl()}
 else[wq,wf].forEach(a=>a.onclick=e=>{e.preventDefault();toast("Falta tu número: edita WHATSAPP en js/config.js")});
 
-/* ===== Cuenta y conexión ===== */
-let mode="in";
-function aUI(){$("#aT").textContent=mode==="in"?"Iniciar sesión":"Crear cuenta";$("#aGo").textContent=mode==="in"?"Entrar":"Registrarme";$("#aSw").textContent=mode==="in"?"¿No tienes cuenta? Regístrate":"¿Ya tienes cuenta? Inicia sesión";$("#aM").textContent=""}
-function uUI(){$("#btnAuth").textContent=user?"Salir ("+(user.email||"").split("@")[0]+")":"Login / Registro"}
-$("#btnAuth").onclick=async()=>{if(!sb){toast("Conecta Supabase primero");$("#btnConn").click();return}if(user){await sb.auth.signOut();toast("Sesión cerrada");return}mode="in";aUI();$("#dAuth").showModal()};
-$("#aSw").onclick=()=>{mode=mode==="in"?"up":"in";aUI()};
-$("#fAuth").onsubmit=async e=>{e.preventDefault();const email=$("#em").value.trim(),password=$("#pw").value;
-  const r=mode==="in"?await sb.auth.signInWithPassword({email,password}):await sb.auth.signUp({email,password});
-  if(r.error){$("#aM").textContent=r.error.message;return}
-  toast(mode==="up"&&!r.data.session?"Revisa tu correo para confirmar la cuenta":"Sesión iniciada");$("#dAuth").close()};
-$("#btnConn").onclick=()=>{$("#cu").value=U;$("#ck").value=K;$("#dConn").showModal()};
-$("#cSave").onclick=()=>{const u=$("#cu").value.trim(),k=$("#ck").value.trim();if(!/^https:\/\/.+\.supabase\.co\/?$/.test(u)||k.length<20){toast("URL o clave no válidas");return}ls.s("lf_url",u.replace(/\/$/,""));ls.s("lf_key",k);location.reload()};
-$("#cClear").onclick=()=>{ls.d("lf_url");ls.d("lf_key");location.reload()};
-document.querySelectorAll("[data-close]").forEach(b=>b.onclick=()=>b.closest("dialog").close());
-document.querySelectorAll("dialog").forEach(d=>d.addEventListener("click",e=>{if(e.target===d)d.close()}));
+/* ===== Logo de la empresa (LOGO_URL en config.js) ===== */
+if(typeof LOGO_URL!=="undefined"&&LOGO_URL){
+  document.querySelectorAll(".logo-img").forEach(i=>{i.src=LOGO_URL;i.hidden=false});
+  const ic=document.createElement("link");ic.rel="icon";ic.href=LOGO_URL;document.head.appendChild(ic);
+}
 
 /* ===== Inicio ===== */
-if(sb){sb.auth.getSession().then(({data})=>{user=data.session?.user||null;uUI()});sb.auth.onAuthStateChange((_e,s)=>{user=s?.user||null;uUI()})}
+// Carrito: se mantiene entre pestañas abiertas del mismo navegador
+window.addEventListener("storage",e=>{if(e.key==="lf_cart"){try{cart=JSON.parse(e.newValue||"{}")}catch(x){cart={}}drawCart()}});
+// Barra de estado solo para ti: abre el sitio con ?debug al final de la dirección
+if(/[?&]debug\b/.test(location.search))$("#status").hidden=false;
 load(true).then(()=>{if(sb)sb.channel("productos-live").on("postgres_changes",{event:"*",schema:"public",table:"productos"},()=>load(false)).subscribe()});
