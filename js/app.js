@@ -6,7 +6,8 @@ const WA=/^\d{8,15}$/.test(WHATSAPP);
 const waUrl=t=>`https://wa.me/${WHATSAPP}${t?"?text="+encodeURIComponent(t):""}`;
 
 /* ===== Utilidades ===== */
-const $=s=>document.querySelector(s);
+// Si un elemento no existe (archivos de distintas versiones), devuelve uno vacío en vez de detener toda la página
+const $=s=>document.querySelector(s)||document.createElement("div");
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const money=n=>new Intl.NumberFormat("es-CL",{style:"currency",currency:"CLP",maximumFractionDigits:0}).format(n||0);
 let tt;const toast=m=>{const t=$("#toast");t.textContent=m;t.classList.add("show");clearTimeout(tt);tt=setTimeout(()=>t.classList.remove("show"),3200)};
@@ -91,10 +92,17 @@ if(WA){wq.href=waUrl("Hola, quiero cotizar un diseño personalizado en Maxi3D St
 else[wq,wf].forEach(a=>a.onclick=e=>{e.preventDefault();toast("Falta tu número: edita WHATSAPP en js/config.js")});
 
 /* ===== Logo de la empresa (LOGO_URL en config.js) ===== */
-if(typeof LOGO_URL!=="undefined"&&LOGO_URL){
-  document.querySelectorAll(".logo-img").forEach(i=>{i.src=LOGO_URL;i.hidden=false});
-  const ic=document.createElement("link");ic.rel="icon";ic.href=LOGO_URL;document.head.appendChild(ic);
-}
+(function(){
+  const say=t=>{$("#stLogo").textContent=t;if(!t.includes("cargado"))console.warn("Maxi3D Studio:",t)};
+  const url=(typeof LOGO_URL==="undefined"?"":String(LOGO_URL)).trim();
+  if(!url){say("Logo: falta LOGO_URL en js/config.js");return}
+  const t=new Image();
+  t.onload=()=>{
+    document.querySelectorAll(".logo-img").forEach(i=>{i.src=url;i.hidden=false});
+    const ic=document.createElement("link");ic.rel="icon";ic.href=url;document.head.appendChild(ic);say("Logo cargado")};
+  t.onerror=()=>say("Logo: no se pudo cargar esa URL (bucket no público o enlace mal copiado)");
+  t.src=url;
+})();
 
 /* ===== Inicio ===== */
 // Carrito: se mantiene entre pestañas abiertas del mismo navegador
@@ -102,4 +110,3 @@ window.addEventListener("storage",e=>{if(e.key==="lf_cart"){try{cart=JSON.parse(
 // Barra de estado solo para ti: abre el sitio con ?debug al final de la dirección
 if(/[?&]debug\b/.test(location.search))$("#status").hidden=false;
 load(true).then(()=>{if(sb)sb.channel("productos-live").on("postgres_changes",{event:"*",schema:"public",table:"productos"},()=>load(false)).subscribe()});
-const LOGO_URL = "https://agqzeweerovhtciyxghu.supabase.co/storage/v1/object/public/Marca/logo.jpg";
