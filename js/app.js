@@ -102,3 +102,4 @@ window.addEventListener("storage",e=>{if(e.key==="lf_cart"){try{cart=JSON.parse(
 // Barra de estado solo para ti: abre el sitio con ?debug al final de la dirección
 if(/[?&]debug\b/.test(location.search))$("#status").hidden=false;
 load(true).then(()=>{if(sb)sb.channel("productos-live").on("postgres_changes",{event:"*",schema:"public",table:"productos"},()=>load(false)).subscribe()});
+const LOGO_URL = "https://agqzeweerovhtciyxghu.supabase.co/storage/v1/object/public/Marca/logo.jpg";
